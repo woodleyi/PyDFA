@@ -28,12 +28,10 @@ class DFAState:
     """Each DFA state has a unique identifier applied upon construction.
     The LRItems passed as items are used to compute the closure of the
     state, preparing it for further construction."""
-    ID = 0
-    def __init__(self, items: list('LRItem'), grammar: defaultdict(list)):
-        self.id = DFAState.ID
+    def __init__(self, m_id: int, items: list('LRItem'), grammar: defaultdict(list)):
+        self.id = m_id
         self.items = items
         self.computeClosure(grammar)
-        DFAState.ID += 1
     
     def __eq__(self, state: 'DFAState'):
         return self.items == state.items
@@ -105,12 +103,14 @@ class DFA:
         self.states = {}
         self.grammar = defaultdict(list)
         self.transitions = defaultdict(dict)
+        self.state_id = 0
         root = self.formatGrammar(grammar)
         self.addState(root)
         self.construct(root)        
 
     def addState(self, state: 'DFAState'):
         self.states[state.id] = state
+        self.state_id += 1
     
     def addTransition(self, a: 'DFAState', b: 'DFAState', edge: str):
         self.transitions[a.id][b.id] = edge
@@ -127,7 +127,7 @@ class DFA:
                     root = LRItem(DFA.Root, '%s %s' % (LRItem.Dot, nt))
                 for p in prod:
                     self.grammar[nt].append(p)
-        return DFAState([root], self.grammar)
+        return DFAState(0, [root], self.grammar)
     
     def construct(self, root: 'DFAState'):
         """From root:
@@ -143,11 +143,10 @@ class DFA:
         existing = set()
         n = root.getNeighbors()
         for edge, items in n.items():
-            new_state = DFAState(items, self.grammar)
+            new_state = DFAState(self.state_id, items, self.grammar)
             for state_id in self.states:
                 if self.states[state_id] == new_state:
                     existing.add(state_id)
-                    DFAState.ID -= 1
                     new_state = self.states[state_id]
                     break
             else:
