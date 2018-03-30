@@ -15,6 +15,9 @@ A -> a b c\
 B -> identifier\
 """
 
+Output:\
+![alt text](https://github.com/woodleyi/LR0-DFA-Generator/blob/master/DFA.svg)
+
 Pass the grammar to an instance of DFA and the automaton will be constructed!
 
 Calling DFA.render() produces a GV file and a file of whichever format the user
