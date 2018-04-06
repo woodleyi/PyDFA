@@ -14,6 +14,7 @@ class LRItem:
     """Simple container to express the relationship between a 
     nonterminal (nt) and a production (prod)."""
     Dot = "•"
+    Nullables = {'λ', 'LAMBDA'}
     def __init__(self, nt: str, prod: str):
         self.nt = nt
         self.prod = prod
@@ -64,7 +65,10 @@ class DFAState:
                 break
             for nt in to_add:
                 for prod in grammar[nt]:
-                    self.items.append(LRItem(nt, "%s %s" % (LRItem.Dot, prod)))
+                    if prod in LRItem.Nullables:
+                        self.items.append(LRItem(nt, LRItem.Dot))
+                    else:
+                        self.items.append(LRItem(nt, "%s %s" % (LRItem.Dot, prod)))
 
     def getNeighbors(self):
         """For each LRItem in state:
@@ -160,13 +164,13 @@ class DFA:
     def render(self, filename='DFA', format='svg'):
         """Outputs constructed DFA as GV and passed format."""
         graph = Digraph('DFA', format=format)
-        cvrt = lambda tup: '%s → %s' % (tup[0], ' | '.join(tup[1]))
+        cvrt = lambda tup: '%s → %s\l' % (tup[0], ' | '.join(tup[1]))
         graph.node('Grammar', 
-            'Grammar\n' + '\n'.join(map(cvrt, self.grammar.items())), 
+            'Grammar\n' + ''.join(map(cvrt, self.grammar.items())), 
             shape='box')
         
         for state_id in self.states:
-            graph.node(str(state_id), '%s\n%s' % (state_id, self.states[state_id]))
+            graph.node(str(state_id), '%s\n%s\l' % (state_id, self.states[state_id]))
         for a in self.transitions:
             for b in self.transitions[a]:
                 edge = self.transitions[a][b]
