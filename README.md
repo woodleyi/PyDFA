@@ -4,8 +4,9 @@ Rendering the DFA requires the Graphviz library: https://pypi.python.org/pypi/gr
 Users may pass an input grammar as a string with the following format:
 
 N -> prod1 | prod2 | ...
-Where N is a nonterminal and prod is a production of N.
-Unique symbols must be separated by whitespace. Aa != A a
+Where N is a nonterminal and prod is a production of N.\
+Unique symbols must be separated by whitespace. Aa != A a\
+Nullable productions may be represented with λ or the keyword LAMBDA.
 
 E.g.\
 grammar=\\\
