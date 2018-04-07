@@ -1,4 +1,6 @@
 # LR(0) DFA Generator/Renderer
+
+Use in your browser at: http://ianstone.pythonanywhere.com \
 Rendering the DFA requires the Graphviz library: https://pypi.python.org/pypi/graphviz
 
 Users may pass an input grammar as a string with the following format:
@@ -19,7 +21,6 @@ B -> identifier\
 Output:\
 ![alt text](https://github.com/woodleyi/LR0-DFA-Generator/blob/master/DFA.svg)
 
-Pass the grammar to an instance of DFA and the automaton will be constructed!
-
+Pass the grammar to an instance of DFA and the automaton will be constructed!\
 Calling DFA.render() produces a GV file and a file of whichever format the user
 passes (defaults to SVG).
