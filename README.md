@@ -1,6 +1,6 @@
 # LR(0) DFA Generator/Renderer
 
-Use in your browser at: http://ianstone.pythonanywhere.com \
+Use in your browser at: http://www.ianstonewoodley.com \
 Rendering the DFA requires the Graphviz library: https://pypi.python.org/pypi/graphviz
 
 Users may pass an input grammar as a string with the following format:
